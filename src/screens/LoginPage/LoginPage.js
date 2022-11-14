@@ -34,7 +34,7 @@ const LoginPage = () => {
                         style={styles.inputText}
                         placeholder='Password'
                         placeholderTextColor={'black'}
-                        secureTextEntry={showPassword}
+                        secureTextEntry={!showPassword}
                         value={password}
                         onChangeText={(e) => setPassword(e)}
                     />
@@ -57,7 +57,8 @@ const LoginPage = () => {
             <TouchableOpacity
                 style={styles.signUpContainer}
             >
-                <Text style={{ fontWeight: '700', fontSize: 15, color: '#11799a' }}>Sign-Up</Text>
+                <Text style={{ fontWeight: '500', fontSize: 15, color: '#11799a' }}>
+                    Already have an account ? </Text>
             </TouchableOpacity>
         </View >
     )
