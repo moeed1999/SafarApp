@@ -1,13 +1,39 @@
-import { StyleSheet, Text, TextInput, View, Image, TouchableOpacity } from 'react-native'
+import { Text, View, Image, TouchableOpacity } from 'react-native'
 import React, { useState } from 'react'
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import TextFieldInput from '../../components/TextFieldInput';
+import { styles } from './styles';
 
 
 const LoginPage = ({ navigation }) => {
     const [contactNum, setContactNum] = useState('')
     const [password, setPassword] = useState('')
     const [showPassword, setShowPassword] = useState(false)
+    const [contactError, setContactError] = useState(false)
+    const [passwordError, setPasswordError] = useState(false)
+    const [specialCharactersFormat] = useState(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/)
+    const [alphaNumericFormat] = useState("[a-zA-Z]+")
+
+    const handleLogin = () => {
+        validateContactNum()
+        validatePassword()
+        approveLogin()
+
+    }
+
+    const validateContactNum = () => {
+        (contactNum.length !== 11 || contactNum.match(specialCharactersFormat)) ? setContactError(true) : setContactError(false)
+    }
+
+    const validatePassword = () => {
+        (!password.match(specialCharactersFormat) || !password.match(alphaNumericFormat) || password.length < 10) ? setPasswordError(true) : setPasswordError(false)
+    }
+
+    const approveLogin = () => {
+        (contactError == false && passwordError == false) &&
+            console.log('login succesful')
+    }
+
+
     return (
         <View style={styles.mainContainer}>
             <View style={styles.upperContainer}>
@@ -18,7 +44,7 @@ const LoginPage = ({ navigation }) => {
             </View>
             <View style={styles.formContainer}>
                 <Text style={styles.heading}>Hello Again!{"\n"}Welcome{"\n"}Back</Text>
-                <View style={{ marginTop: 10 }}>
+                <View style={{ marginTop: 5 }}>
                     <TextFieldInput
                         iconName='phone'
                         iconSize={20}
@@ -30,8 +56,12 @@ const LoginPage = ({ navigation }) => {
                         handleChange={(e) => setContactNum(e)}
                         maxLength={11}
                     />
+                    {contactError &&
+                        <Text
+                            style={styles.errorTexts}
+                        >Please enter a valid contact number</Text>}
                 </View>
-                <View style={{ marginTop: 10 }}>
+                <View style={{ marginTop: 5 }}>
                     <TextFieldInput
                         iconName='onepassword'
                         iconSize={20}
@@ -47,12 +77,16 @@ const LoginPage = ({ navigation }) => {
                         rightIconSize={20}
                         handleRightIcon={() => setShowPassword(!showPassword)}
                     />
+                    {passwordError &&
+                        <Text
+                            style={styles.errorTexts}
+                        >Please enter a 10 digit long password with atlease one small letter, one capital letter, one number and one special character</Text>}
                 </View>
                 <Text style={styles.forgotPass}>Forgot Password?</Text>
             </View>
             <TouchableOpacity
                 style={styles.loginContainer}
-                onPress={() => console.log(password, contactNum)}
+                onPress={handleLogin}
             >
                 <Text style={{ fontWeight: '700', fontSize: 15 }}>Login</Text>
             </TouchableOpacity>
@@ -69,66 +103,3 @@ const LoginPage = ({ navigation }) => {
 }
 
 export default LoginPage
-
-const styles = StyleSheet.create({
-    mainContainer: {
-        flex: 1,
-        backgroundColor: '#fbfdfd',
-    },
-    upperContainer: {
-        width: '100%',
-        height: '30%'
-    },
-    image: {
-        width: '100%',
-        height: '100%'
-    },
-    formContainer: {
-        width: '80%',
-        alignSelf: 'center',
-        marginTop: -20,
-        borderRadius: 10,
-        padding: 20,
-        backgroundColor: 'white',
-        shadowColor: 'black',
-        shadowOpacity: 1,
-        elevation: 10,
-
-    },
-    heading: {
-        color: 'black',
-        fontSize: 22,
-        fontWeight: '600'
-    },
-    forgotPass: {
-        color: '#11799a',
-        alignSelf: 'center',
-        marginTop: 20
-    },
-    loginContainer: {
-        width: '80%',
-        alignSelf: 'center',
-        backgroundColor: '#11799a',
-        marginTop: 20,
-        padding: 10,
-        borderRadius: 10,
-        display: 'flex',
-        alignItems: 'center',
-        shadowColor: 'black',
-        shadowOpacity: 1,
-        elevation: 5,
-    },
-    signUpContainer: {
-        width: '80%',
-        alignSelf: 'center',
-        backgroundColor: 'white',
-        marginTop: 10,
-        padding: 10,
-        borderRadius: 10,
-        display: 'flex',
-        alignItems: 'center',
-        shadowColor: 'black',
-        shadowOpacity: 1,
-        elevation: 5,
-    }
-})
