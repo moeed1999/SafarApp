@@ -1,6 +1,7 @@
 import { StyleSheet, Text, TextInput, View, Image, TouchableOpacity } from 'react-native'
 import React, { useState } from 'react'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import TextFieldInput from '../../components/TextFieldInput';
 
 
 const LoginPage = () => {
@@ -17,39 +18,41 @@ const LoginPage = () => {
             </View>
             <View style={styles.formContainer}>
                 <Text style={styles.heading}>Hello Again!{"\n"}Welcome{"\n"}Back</Text>
-                <View style={styles.input}>
-                    <Icon name="phone" size={20} color="black" style={{ marginRight: 5 }} />
-                    <TextInput
-                        style={styles.inputText}
-                        placeholder='Contact Num'
-                        placeholderTextColor={'black'}
+                <View style={{ marginTop: 10 }}>
+                    <TextFieldInput
+                        iconName='phone'
+                        iconSize={20}
+                        iconColor='black'
+                        placeholderText='Contact Num'
+                        placeholderTextColor='black'
                         keyboardType='phone-pad'
-                        value={contactNum}
-                        onChangeText={(e) => setContactNum(e)}
+                        val={contactNum}
+                        handleChange={(e) => setContactNum(e)}
+                        maxLength={11}
                     />
                 </View>
-                <View style={styles.input}>
-                    <Icon name="onepassword" size={20} color="black" style={{ marginRight: 5 }} />
-                    <TextInput
-                        style={styles.inputText}
-                        placeholder='Password'
-                        placeholderTextColor={'black'}
+                <View style={{ marginTop: 10 }}>
+                    <TextFieldInput
+                        iconName='onepassword'
+                        iconSize={20}
+                        iconColor='black'
+                        placeholderText='Password'
+                        placeholderTextColor='black'
                         secureTextEntry={!showPassword}
-                        value={password}
-                        onChangeText={(e) => setPassword(e)}
+                        val={password}
+                        handleChange={(e) => setPassword(e)}
+                        isPasswordField={true}
+                        rightIcon={!showPassword ? "eye-outline" : "eye-off-outline"}
+                        rightIconColor='black'
+                        rightIconSize={20}
+                        handleRightIcon={() => setShowPassword(!showPassword)}
                     />
-                    <TouchableOpacity>
-                        <Icon
-                            name={showPassword ? "eye-outline" : "eye-off-outline"}
-                            size={20} color="black"
-                            style={{ marginRight: 5 }}
-                            onPress={() => setShowPassword(!showPassword)} />
-                    </TouchableOpacity>
                 </View>
                 <Text style={styles.forgotPass}>Forgot Password?</Text>
             </View>
             <TouchableOpacity
                 style={styles.loginContainer}
+                onPress={() => console.log(password, contactNum)}
             >
                 <Text style={{ fontWeight: '700', fontSize: 15 }}>Login</Text>
             </TouchableOpacity>
@@ -58,7 +61,7 @@ const LoginPage = () => {
                 style={styles.signUpContainer}
             >
                 <Text style={{ fontWeight: '500', fontSize: 15, color: '#11799a' }}>
-                    Already have an account ? </Text>
+                    Don't have an account ? </Text>
             </TouchableOpacity>
         </View >
     )
@@ -95,18 +98,6 @@ const styles = StyleSheet.create({
         color: 'black',
         fontSize: 22,
         fontWeight: '600'
-    },
-    input: {
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginTop: 25,
-        color: 'black'
-    },
-    inputText: {
-        width: '80%',
-        borderBottomWidth: 1,
-        color: 'black'
     },
     forgotPass: {
         color: '#11799a',
