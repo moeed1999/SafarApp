@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, ImageBackground, TouchableOpacity, Image } from 'react-native'
 import React from 'react'
 
-const LandingPage = () => {
+const LandingPage = ({ navigation }) => {
     return (
         <ImageBackground source={require('../../assets/images/animatedBg3.jpg')} resizeMode='cover' style={styles.mainContainer}>
             <View style={styles.viewsContainer}>
@@ -10,6 +10,7 @@ const LandingPage = () => {
                     <Text style={styles.subheading}>Lets start our journey together</Text>
                 </View>
                 <TouchableOpacity
+                    onPress={() => (navigation.navigate('Login'))}
                     style={styles.buttonContainer}>
                     <Text style={styles.buttonText}>Lets get started</Text>
                 </TouchableOpacity>

@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import TextFieldInput from '../../components/TextFieldInput';
 
 
-const LoginPage = () => {
+const LoginPage = ({ navigation }) => {
     const [contactNum, setContactNum] = useState('')
     const [password, setPassword] = useState('')
     const [showPassword, setShowPassword] = useState(false)
@@ -58,6 +58,7 @@ const LoginPage = () => {
             </TouchableOpacity>
             <Text style={{ textAlign: 'center', color: 'black', marginTop: 10, }}>OR</Text>
             <TouchableOpacity
+                onPress={() => (navigation.navigate('Signup'))}
                 style={styles.signUpContainer}
             >
                 <Text style={{ fontWeight: '500', fontSize: 15, color: '#11799a' }}>

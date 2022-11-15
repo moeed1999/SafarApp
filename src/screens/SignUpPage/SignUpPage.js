@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import TextFieldInput from '../../components/TextFieldInput';
 
-const SignUpPage = () => {
+const SignUpPage = ({ navigation }) => {
     const [contactNum, setContactNum] = useState('')
     const [password, setPassword] = useState('')
     const [showPassword, setShowPassword] = useState(false)
@@ -82,6 +82,7 @@ const SignUpPage = () => {
             <Text style={{ textAlign: 'center', color: 'black', marginTop: 10, }}>OR</Text>
             <TouchableOpacity
                 style={styles.signUpContainer}
+                onPress={() => navigation.navigate('Login')}
             >
                 <Text style={{ fontWeight: '500', fontSize: 15, color: '#11799a' }}>
                     Already have an account ? </Text>
