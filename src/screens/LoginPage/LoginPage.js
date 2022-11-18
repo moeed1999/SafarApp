@@ -1,19 +1,30 @@
 import { Text, View, Image, TouchableOpacity } from 'react-native'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import TextFieldInput from '../../components/TextFieldInput';
 import { styles } from './styles';
+import Toast from 'react-native-simple-toast';
 
 
 const LoginPage = ({ navigation }) => {
     const [contactNum, setContactNum] = useState('')
     const [password, setPassword] = useState('')
     const [showPassword, setShowPassword] = useState(false)
-    const [contactError, setContactError] = useState(false)
-    const [passwordError, setPasswordError] = useState(false)
+    const [contactError, setContactError] = useState(true)
+    const [passwordError, setPasswordError] = useState(true)
+    const [loginPressed, setLoginPressed] = useState(false)
     const [specialCharactersFormat] = useState(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/)
     const [alphaNumericFormat] = useState("[a-zA-Z]+")
 
+    useEffect(() => {
+        contactError && validateContactNum()
+    }, [contactNum])
+
+    useEffect(() => {
+        passwordError && validatePassword()
+    }, [password])
+
     const handleLogin = () => {
+        // write all error checks before login here
         validateContactNum()
         validatePassword()
         approveLogin()
@@ -29,8 +40,14 @@ const LoginPage = ({ navigation }) => {
     }
 
     const approveLogin = () => {
-        (contactError == false && passwordError == false) &&
-            console.log('login succesful')
+        setLoginPressed(true)
+        // write all validations before login here
+        if (
+            !(contactNum.length !== 11 || contactNum.match(specialCharactersFormat)) &&
+            !(!password.match(specialCharactersFormat) || !password.match(alphaNumericFormat) || password.length < 10)
+        ) {
+            Toast.show('Logged in successfully')
+        }
     }
 
 
@@ -56,7 +73,7 @@ const LoginPage = ({ navigation }) => {
                         handleChange={(e) => setContactNum(e)}
                         maxLength={11}
                     />
-                    {contactError &&
+                    {(contactError && loginPressed) &&
                         <Text
                             style={styles.errorTexts}
                         >Please enter a valid contact number</Text>}
@@ -77,7 +94,7 @@ const LoginPage = ({ navigation }) => {
                         rightIconSize={20}
                         handleRightIcon={() => setShowPassword(!showPassword)}
                     />
-                    {passwordError &&
+                    {(passwordError && loginPressed) &&
                         <Text
                             style={styles.errorTexts}
                         >Please enter a 10 digit long password with atlease one small letter, one capital letter, one number and one special character</Text>}
