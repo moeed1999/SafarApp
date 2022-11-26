@@ -1,4 +1,4 @@
-import { Text, View, Image, TouchableOpacity } from 'react-native'
+import { Text, View, Image, TouchableOpacity, KeyboardAvoidingView } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import TextFieldInput from '../../components/TextFieldInput';
 import { styles } from './styles';
@@ -16,31 +16,23 @@ const LoginPage = ({ navigation }) => {
     const [alphaNumericFormat] = useState("[a-zA-Z]+")
 
     useEffect(() => {
-        contactError && validateContactNum()
-    }, [contactNum])
-
-    useEffect(() => {
-        passwordError && validatePassword()
-    }, [password])
+        (contactError || passwordError) && validateData();
+    }, [contactNum, password])
 
     const handleLogin = () => {
-        // write all error checks before login here
-        validateContactNum()
-        validatePassword()
+        validateData()
         approveLogin()
 
     }
 
-    const validateContactNum = () => {
-        (contactNum.length !== 11 || contactNum.match(specialCharactersFormat)) ? setContactError(true) : setContactError(false)
-    }
-
-    const validatePassword = () => {
+    const validateData = () => {
+        (contactNum.length !== 11 || contactNum.match(specialCharactersFormat)) ? setContactError(true) : setContactError(false);
         (!password.match(specialCharactersFormat) || !password.match(alphaNumericFormat) || password.length < 10) ? setPasswordError(true) : setPasswordError(false)
+
     }
 
     const approveLogin = () => {
-        setLoginPressed(true)
+        setLoginPressed(true);
         // write all validations before login here
         if (
             !(contactNum.length !== 11 || contactNum.match(specialCharactersFormat)) &&
@@ -48,6 +40,9 @@ const LoginPage = ({ navigation }) => {
         ) {
             Toast.show('Logged in successfully')
         }
+        else (Toast.show('Login Falied'))
+
+
     }
 
 
@@ -78,7 +73,7 @@ const LoginPage = ({ navigation }) => {
                             style={styles.errorTexts}
                         >Please enter a valid contact number</Text>}
                 </View>
-                <View style={{ marginTop: 5 }}>
+                <KeyboardAvoidingView style={{ marginTop: 5 }}>
                     <TextFieldInput
                         iconName='onepassword'
                         iconSize={20}
@@ -97,8 +92,8 @@ const LoginPage = ({ navigation }) => {
                     {(passwordError && loginPressed) &&
                         <Text
                             style={styles.errorTexts}
-                        >Please enter a 10 digit long password with atlease one small letter, one capital letter, one number and one special character</Text>}
-                </View>
+                        >Please enter a 10 digit long password with atlease one letter, one number and one special character</Text>}
+                </KeyboardAvoidingView>
                 <Text style={styles.forgotPass}>Forgot Password?</Text>
             </View>
             <TouchableOpacity
