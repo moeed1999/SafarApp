@@ -29,16 +29,13 @@ const SignUpPage = ({ navigation }) => {
         approveSignUp()
     }
     useEffect(() => {
-        if (
-            errors.confirmPasswordError ||
-            errors.contactError ||
-            errors.emailError ||
-            errors.passwordError
-        ) { validateData() }
+        validateData();
+        setErrors(errors => ({
+            ...errors,
+        }))
     }, [contactNum, password, email, passwordCheck])
 
     const validateData = () => {
-
         contactNum.length !== 11 || contactNum.match(specialCharactersFormat) || contactNum === '' ?
             setErrors(errors => ({
                 ...errors,
@@ -70,8 +67,7 @@ const SignUpPage = ({ navigation }) => {
             }))
             :
             delete errors['emailError'];
-
-
+        console.log(errors, 'after')
     }
 
     const approveSignUp = () => {
