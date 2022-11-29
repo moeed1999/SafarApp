@@ -1,7 +1,6 @@
 import { View } from 'react-native'
 import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-// import DiscoverPage from '../../screens/DiscoverPage/DiscoverPage';
 import DiscoverHomeStack from './DiscoverHomeStack';
 import Icon from 'react-native-vector-icons/AntDesign';
 

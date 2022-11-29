@@ -26,7 +26,7 @@ export const styles = StyleSheet.create({
     upperBarIconsContainer: {
         flexDirection: 'row',
         width: '35%',
-        justifyContent: "space-between"
+        justifyContent: 'flex-end'
     },
     placesContainer: {
         // borderWidth: 1,

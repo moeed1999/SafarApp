@@ -1,4 +1,4 @@
-import { Text, View, FlatList, ImageBackground, Image, ScrollView } from 'react-native'
+import { Text, View, FlatList, ImageBackground, Image, ScrollView, TextInput } from 'react-native'
 import React, { useState } from 'react'
 import { styles } from './styles'
 import Icon from 'react-native-vector-icons/AntDesign';
@@ -80,14 +80,11 @@ const DiscoverPage = () => {
             <View style={styles.upperBar}>
                 <Text style={styles.heading}>Discover</Text>
                 <View style={styles.upperBarIconsContainer}>
-                    <Icon name={'search1'} size={20} color={'grey'} style={{ marginRight: 5 }} />
-                    <Icon name={'bells'} size={20} color={'grey'} style={{ marginRight: 5 }} />
-                    <Icon name={'user'} size={20} color={'grey'} style={{ marginRight: 5 }} />
+                    <Icon name={'bells'} size={20} color={'grey'} style={{ marginRight: 20 }} />
+                    <Icon name={'user'} size={20} color={'grey'} />
                 </View>
             </View>
-            <Text style={styles.description}>We've got a lot of new deals here{'\n'}
-                check them out!
-            </Text>
+            {/* add search bar here */}
             <FlatList
                 style={{ flexGrow: 0 }}
                 data={places}
