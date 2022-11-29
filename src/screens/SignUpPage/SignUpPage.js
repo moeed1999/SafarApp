@@ -74,7 +74,7 @@ const SignUpPage = ({ navigation }) => {
                 />
             </View>
             <TouchableOpacity
-                onPress={() => console.log(contactNum, password, passwordCheck, email, 'ss')}
+                onPress={() => navigation.navigate('MainBottomStack')}
                 style={styles.loginContainer}
             >
                 <Text style={{ fontWeight: '700', fontSize: 15 }}>Sign-Up</Text>

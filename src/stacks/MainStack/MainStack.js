@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native'
 import LandingPage from '../../screens/LandingPage/LandingPage'
 import LoginPage from '../../screens/LoginPage/LoginPage'
 import SignUpPage from '../../screens/SignUpPage/SignUpPage'
+import MainBottomStack from '../BottomNavigatorStacks/MainBottomStack'
 
 const MainStack = () => {
     const Stack = createNativeStackNavigator()
@@ -13,6 +14,7 @@ const MainStack = () => {
                 <Stack.Screen name='LandingPage' component={LandingPage} options={{ headerShown: false }} />
                 <Stack.Screen name='Login' component={LoginPage} options={{ headerShown: false }} />
                 <Stack.Screen name='Signup' component={SignUpPage} options={{ headerShown: false }} />
+                <Stack.Screen name='MainBottomStack' component={MainBottomStack} options={{ headerShown: false }} />
             </Stack.Navigator>
         </NavigationContainer>
     )

@@ -100,6 +100,9 @@ const DiscoverPage = () => {
                 renderItem={(item) => showToursGoing(item)}
                 horizontal
             />
+            <Text style={styles.description}>OR{'\n'}
+                maybe check out some cool spots!
+            </Text>
             <View style={styles.destinationHeadingContainer}>
                 <Text style={styles.destinationHeading}>Top Destinations</Text>
                 <Icon name={'ellipsis1'} size={20} color={'grey'} style={{ marginRight: 5 }} />
