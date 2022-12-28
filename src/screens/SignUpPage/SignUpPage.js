@@ -21,6 +21,7 @@ const SignUpPage = ({ navigation }) => {
     const [alphaNumericFormat] = useState("[a-zA-Z]+")
     const [emailFormat] = useState(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)
     const [pressedSignUp, setPressedSignUp] = useState(false)
+    const [errorFlag, setErrorFlag] = useState(false)
 
 
     const handleSignUp = () => {
@@ -67,11 +68,17 @@ const SignUpPage = ({ navigation }) => {
             }))
             :
             delete errors['emailError'];
-        console.log(errors, 'after')
     }
 
     const approveSignUp = () => {
-        JSON.stringify(errors) !== '{}' ? Toast.show('signed up failed') : Toast.show('sign up success')
+        if (JSON.stringify(errors) !== '{}') {
+            Toast.show('signed up failed')
+            setErrorFlag(true)
+        }
+        else {
+            Toast.show('sign up success')
+            setErrorFlag(false)
+        }
     }
 
     return (
@@ -83,7 +90,7 @@ const SignUpPage = ({ navigation }) => {
                     source={require('../../assets/images/animatedBg3.jpg')} />
             </View>
             <View
-                style={[styles.formContainer, { marginTop: JSON.stringify(errors) === '{}' ? -20 : -105, }]}
+                style={[styles.formContainer, { marginTop: !errorFlag ? -20 : -105, }]}
             >
                 <Text style={styles.heading}>Welcome!{"\n"}Lets Get You{"\n"}Started</Text>
                 <TextFieldInput
