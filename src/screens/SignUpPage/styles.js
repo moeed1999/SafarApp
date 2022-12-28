@@ -56,5 +56,11 @@ export const styles = StyleSheet.create({
         shadowColor: 'black',
         shadowOpacity: 1,
         elevation: 5,
+    },
+    errorTexts: {
+        color: 'red',
+        fontSize: 12,
+        textAlign: 'center',
+        marginTop: 2
     }
 })

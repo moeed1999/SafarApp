@@ -10,11 +10,13 @@ export const styles = StyleSheet.create({
 
     },
     upperBar: {
-        // borderWidth: 1,
+        borderBottomWidth: 1,
+        paddingBottom: 7,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginTop: 10
+        marginTop: 5,
+        borderBottomColor: 'grey'
     },
     heading: {
         color: 'black',
@@ -30,7 +32,7 @@ export const styles = StyleSheet.create({
     },
     placesContainer: {
         // borderWidth: 1,
-        marginTop: 15,
+        marginTop: 12,
         height: 30,
         marginRight: 20,
         // flexGrow: 0
@@ -42,7 +44,7 @@ export const styles = StyleSheet.create({
     toursGoingContainer: {
         // borderWidth: 1,
         height: 300,
-        marginTop: 15,
+        marginTop: 12,
         marginRight: 20,
         width: 200,
         borderRadius: 10,

@@ -1,4 +1,4 @@
-import { Text, View, FlatList, ImageBackground, Image, ScrollView, TextInput } from 'react-native'
+import { Text, View, FlatList, ImageBackground, Image, ScrollView, TextInput, TouchableOpacity } from 'react-native'
 import React, { useState } from 'react'
 import { styles } from './styles'
 import Icon from 'react-native-vector-icons/AntDesign';
@@ -18,18 +18,20 @@ const DiscoverPage = () => {
         { img: require('../../assets/images/waterfall.jpg'), name: 'Gabbin Jabba', description: 'visit before it gets too crowded' },
         { img: require('../../assets/images/animatedBg4.jpg'), name: 'Lake Saif ul Mulook', description: 'visit before it gets too crowded' },
     ])
-
+    const [selectedPlace, setSelectedPlace] = useState(0)
 
     const showPlaces = ({ item, index }) => {
         return (
-            <View style={styles.placesContainer}>
+            <TouchableOpacity style={styles.placesContainer}
+                onPress={() => setSelectedPlace(index)}
+            >
                 <Text
                     style={styles.places}
                 >{item}</Text>
-                {index === 0 && <Text
+                {index === selectedPlace && <Text
                     style={[styles.places, { marginTop: -15, fontWeight: 'bold', alignSelf: 'center', fontSize: 20 }]}
                 >{'.'}</Text>}
-            </View>
+            </TouchableOpacity>
         )
     }
 
@@ -84,7 +86,19 @@ const DiscoverPage = () => {
                     <Icon name={'user'} size={20} color={'grey'} />
                 </View>
             </View>
-            {/* add search bar here */}
+            {/* make component of search bar here */}
+            <View style={{ borderWidth: 1, width: '90%', flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', alignSelf: 'center', marginTop: 12, borderRadius: 10, borderColor: 'grey', height: 40 }}>
+                <TextInput style={{
+                    width: '80%',
+                    color: 'black',
+                    fontSize: 15,
+                }}
+                    placeholder='search for places or tours'
+                    placeholderTextColor='grey'
+                ></TextInput>
+                <Icon name={'search1'} size={20} color={'grey'} style={{ marginRight: 5 }} />
+            </View>
+            {/* ===== */}
             <FlatList
                 style={{ flexGrow: 0 }}
                 data={places}
