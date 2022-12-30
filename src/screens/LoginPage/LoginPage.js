@@ -38,6 +38,7 @@ const LoginPage = ({ navigation }) => {
             !(contactNum.length !== 11 || contactNum.match(specialCharactersFormat)) &&
             !(!password.match(specialCharactersFormat) || !password.match(alphaNumericFormat) || password.length < 10)
         ) {
+            navigation.navigate('MainBottomStack')
             Toast.show('Logged in successfully')
         }
         else (Toast.show('Login Falied'))

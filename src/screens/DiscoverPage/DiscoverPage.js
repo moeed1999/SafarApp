@@ -1,29 +1,36 @@
 import { Text, View, FlatList, ImageBackground, Image, ScrollView, TextInput, TouchableOpacity } from 'react-native'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { styles } from './styles'
 import Icon from 'react-native-vector-icons/AntDesign';
-
+import SearchField from '../../components/SearchField';
 
 const DiscoverPage = () => {
     const [places] = useState(['Naran Kaghan', 'Azad Kashmir', 'Swat & Malam Jabba', 'Kalam', 'Skardu', 'Hunza & Naltar Valley',])
-    const [toursGoing] = useState([
-        { img: require('../../assets/images/waterfall2.jpg'), name: 'Safar-Nama', ratings: '4.5', moto: 'More Travel, Less Worry' },
-        { img: require('../../assets/images/beach.jpg'), name: 'Pakistani-Tours', ratings: '4.7', moto: 'More Travel, Less Worry' },
-        { img: require('../../assets/images/waterfall.jpg'), name: 'Trekkers', ratings: '4.2', moto: 'More Travel, Less Worry' },
-        { img: require('../../assets/images/animatedBg4.jpg'), name: 'Northeners', ratings: '4.1', moto: 'More Travel, Less Worry' },
+    const [toursGoing, setToursGoing] = useState([
+        { img: require('../../assets/images/waterfall2.jpg'), name: 'Safar-Nama', ratings: '4.5', moto: 'More Travel, Less Worry', place: ['Azad Kashmir', 'Swat & Malam Jabba', 'Naran Kaghan'] },
+        { img: require('../../assets/images/beach.jpg'), name: 'Pakistani-Tours', ratings: '4.7', moto: 'More Travel, Less Worry', place: ['Skardu', 'Azad Kashmir',] },
+        { img: require('../../assets/images/waterfall.jpg'), name: 'Trekkers', ratings: '4.2', moto: 'More Travel, Less Worry', place: ['Naran Kaghan', 'Azad Kashmir',] },
+        { img: require('../../assets/images/animatedBg4.jpg'), name: 'Northeners', ratings: '4.1', moto: 'More Travel, Less Worry', place: ['Kalam', 'Swat & Malam Jabba'] },
     ])
+    const [filteredToursGoing] = useState(toursGoing)
+    const [toursFilter, setToursFilter] = useState('')
     const [topPlaces] = useState([
         { img: require('../../assets/images/waterfall2.jpg'), name: 'Kel - Arang Kel', description: 'visit before it gets too crowded' },
         { img: require('../../assets/images/beach.jpg'), name: 'Sharan Forest', description: 'visit before it gets too crowded' },
         { img: require('../../assets/images/waterfall.jpg'), name: 'Gabbin Jabba', description: 'visit before it gets too crowded' },
         { img: require('../../assets/images/animatedBg4.jpg'), name: 'Lake Saif ul Mulook', description: 'visit before it gets too crowded' },
     ])
-    const [selectedPlace, setSelectedPlace] = useState(0)
+    const [selectedPlace, setSelectedPlace] = useState('')
+    const [searchVal, setSearchVal] = useState('')
 
+    const handlePlaces = (item, index) => {
+        setSelectedPlace(index !== selectedPlace ? index : '')
+        setToursFilter(index !== selectedPlace ? item : '')
+    }
     const showPlaces = ({ item, index }) => {
         return (
             <TouchableOpacity style={styles.placesContainer}
-                onPress={() => setSelectedPlace(index)}
+                onPress={() => handlePlaces(item, index)}
             >
                 <Text
                     style={styles.places}
@@ -77,8 +84,45 @@ const DiscoverPage = () => {
         )
     }
 
+    const showEmptyToursList = () => {
+        return (
+            <View style={{ height: 315, justifyContent: 'center', alignItems: 'center' }}
+            >
+                <Image
+                    source={require('../../assets/images/empty.jpg')}
+                    style={{ height: 200, width: 150, alignSelf: 'center', borderWidth: 1 }}
+                    resizeMode='cover'
+                />
+                <Text style={{ color: 'black', fontSize: 14 }}>
+                    No matching search...
+                </Text>
+            </View>
+        )
+    }
+
+    useEffect(() => {
+        if (searchVal || !toursFilter) {
+            setToursGoing(filteredToursGoing.filter((elem) => {
+                return elem.name.toLowerCase().includes(searchVal.toLowerCase())
+            }))
+        }
+        if (toursFilter) {
+            setToursGoing(filteredToursGoing.filter((elem) => {
+                return elem.place.includes(toursFilter)
+            }))
+            console.log('--->>')
+        }
+        if (searchVal && toursFilter) {
+            setToursGoing(filteredToursGoing.filter((elem) => {
+                return elem.name.toLowerCase().includes(searchVal.toLowerCase()) && elem.place.includes(toursFilter)
+            }))
+        }
+    }, [searchVal, toursFilter])
     return (
-        <ScrollView style={styles.mainContainer}>
+        <ScrollView style={styles.mainContainer}
+            // keyboardShouldPersistTaps used here to persist search bar text input
+            keyboardShouldPersistTaps={"always"}
+        >
             <View style={styles.upperBar}>
                 <Text style={styles.heading}>Discover</Text>
                 <View style={styles.upperBarIconsContainer}>
@@ -86,19 +130,19 @@ const DiscoverPage = () => {
                     <Icon name={'user'} size={20} color={'grey'} />
                 </View>
             </View>
-            {/* make component of search bar here */}
-            <View style={{ borderWidth: 1, width: '90%', flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', alignSelf: 'center', marginTop: 12, borderRadius: 10, borderColor: 'grey', height: 40 }}>
-                <TextInput style={{
-                    width: '80%',
-                    color: 'black',
-                    fontSize: 15,
-                }}
+            {/* search bar */}
+            <View style={{ marginTop: 12, width: '90%', alignSelf: 'center' }}>
+                <SearchField
                     placeholder='search for places or tours'
                     placeholderTextColor='grey'
-                ></TextInput>
-                <Icon name={'search1'} size={20} color={'grey'} style={{ marginRight: 5 }} />
+                    value={searchVal}
+                    onChangeText={(e) => setSearchVal(e)}
+                    onCancel={(e) => {
+                        setSearchVal('')
+                        setToursGoing(filteredToursGoing)
+                    }}
+                />
             </View>
-            {/* ===== */}
             <FlatList
                 style={{ flexGrow: 0 }}
                 data={places}
@@ -110,6 +154,11 @@ const DiscoverPage = () => {
                 data={toursGoing}
                 renderItem={(item) => showToursGoing(item)}
                 horizontal
+                ListEmptyComponent={showEmptyToursList}
+                contentContainerStyle={[
+                    { flexGrow: 1 },
+                    { justifyContent: 'center' }
+                ]}
             />
             <Text style={styles.description}>OR{'\n'}
                 maybe check out some cool spots!
