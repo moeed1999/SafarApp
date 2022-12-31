@@ -1,3 +1,3 @@
-export const textColors = {
+export const colors = {
     mainBlue: '#11799a'
 }

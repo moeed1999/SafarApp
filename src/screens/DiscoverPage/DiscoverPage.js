@@ -1,4 +1,4 @@
-import { Text, View, FlatList, ImageBackground, Image, ScrollView, TextInput, TouchableOpacity } from 'react-native'
+import { Text, View, FlatList, ImageBackground, Image, ScrollView, TouchableOpacity } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { styles } from './styles'
 import Icon from 'react-native-vector-icons/AntDesign';
@@ -26,18 +26,19 @@ const DiscoverPage = () => {
     const handlePlaces = (item, index) => {
         setSelectedPlace(index !== selectedPlace ? index : '')
         setToursFilter(index !== selectedPlace ? item : '')
+        console.log(selectedPlace, '-->>')
     }
     const showPlaces = ({ item, index }) => {
         return (
-            <TouchableOpacity style={styles.placesContainer}
+            <TouchableOpacity
+                style={[styles.placesContainer, index === selectedPlace && styles.selectedPlaceContainer]}
                 onPress={() => handlePlaces(item, index)}
             >
                 <Text
-                    style={styles.places}
-                >{item}</Text>
-                {index === selectedPlace && <Text
-                    style={[styles.places, { marginTop: -15, fontWeight: 'bold', alignSelf: 'center', fontSize: 20 }]}
-                >{'.'}</Text>}
+                    style={[styles.places, index === selectedPlace && styles.selectedPlace]}
+                >
+                    {item}
+                </Text>
             </TouchableOpacity>
         )
     }
@@ -110,7 +111,6 @@ const DiscoverPage = () => {
             setToursGoing(filteredToursGoing.filter((elem) => {
                 return elem.place.includes(toursFilter)
             }))
-            console.log('--->>')
         }
         if (searchVal && toursFilter) {
             setToursGoing(filteredToursGoing.filter((elem) => {
@@ -118,6 +118,7 @@ const DiscoverPage = () => {
             }))
         }
     }, [searchVal, toursFilter])
+
     return (
         <ScrollView style={styles.mainContainer}
             // keyboardShouldPersistTaps used here to persist search bar text input
@@ -126,14 +127,13 @@ const DiscoverPage = () => {
             <View style={styles.upperBar}>
                 <Text style={styles.heading}>Discover</Text>
                 <View style={styles.upperBarIconsContainer}>
-                    <Icon name={'bells'} size={20} color={'grey'} style={{ marginRight: 20 }} />
-                    <Icon name={'user'} size={20} color={'grey'} />
+                    <Icon name={'message1'} size={20} color={'black'} />
                 </View>
             </View>
             {/* search bar */}
             <View style={{ marginTop: 12, width: '90%', alignSelf: 'center' }}>
                 <SearchField
-                    placeholder='search for places or tours'
+                    placeholder='search tour agencies'
                     placeholderTextColor='grey'
                     value={searchVal}
                     onChangeText={(e) => setSearchVal(e)}

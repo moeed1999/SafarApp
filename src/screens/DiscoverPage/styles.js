@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native'
+import { colors } from '../../utils/colors'
 
 export const styles = StyleSheet.create({
     mainContainer: {
@@ -31,14 +32,31 @@ export const styles = StyleSheet.create({
         justifyContent: 'flex-end'
     },
     placesContainer: {
-        // borderWidth: 1,
         marginTop: 12,
         height: 30,
-        marginRight: 20,
-        // flexGrow: 0
+        marginRight: 15,
+        justifyContent: "center",
+        alignItems: 'center',
+        paddingHorizontal: 7,
+        borderRadius: 10,
+        backgroundColor: '#f1f3f3'
+    },
+    selectedPlaceContainer: {
+        marginTop: 12,
+        height: 30,
+        marginRight: 15,
+        justifyContent: "center",
+        alignItems: 'center',
+        paddingHorizontal: 7,
+        borderRadius: 10,
+        backgroundColor: colors.mainBlue,
     },
     places: {
-        color: 'black',
+        color: 'grey',
+        fontSize: 15,
+    },
+    selectedPlace: {
+        color: 'white',
         fontSize: 15,
     },
     toursGoingContainer: {
